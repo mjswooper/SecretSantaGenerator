@@ -1,4 +1,61 @@
-SecretSantaGenerator
-====================
+Secret Sanata Generator
+======================
 
-Secret Santa Present Alocation with Java
+Java program to take a csv file and create a secret santa list.
+
+Uses objects and adheres to some rules.
+
+Break Down:
+======================
+
+FILES
+
+- Main.class
+
+- Person.class
+
+- Demo.csv
+
+
+SYNOPSIS
+
+This program needs a comma-delimited CSV to the same structure as the demo provided. It then splits this into an arraylist of Person objects. The program goes though each secret santa (giver) sequentially and randomly picks the name of a giver.
+
+The 
+
+
+RULES
+
+- Everyone gets 6 presents
+
+- Secret Santas (givers) cannot give to the same category, such as the same house.
+
+- There are three types of recipient: Adult, Teenager and Child.
+
+- Adults give 4 present to other adults, two to children
+
+- Teenagers give 4 presents to adult, none to children
+
+- Children only receive presents
+
+
+INPUT
+
+Only the CSV at this stage. Next step of this program is to prompt the user for rules.
+
+
+OUTPUT
+
+
+
+RUNNING
+
+
+BUGS
+    Quite probably.
+
+
+AUTHOR
+    Jesse Wheeler <admin@planned-escape.com>
+
+
