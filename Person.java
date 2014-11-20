@@ -9,7 +9,7 @@ class Person {
 	String ssName = "";
 	String ssType = ""; //adult, teenager or child (a,t,c)
 	String ssCat = ""; //which household or group they are in
-	String p[] = new String[6]; 
+	String p[] = new String[6]; //names of those to give presents to go here.
 	int totalp = 0; //total of presents allocated
 	
 	
