@@ -17,7 +17,6 @@
  *  
  */
 
-
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -29,11 +28,11 @@ import java.util.Arrays;
 public class main {
 
     public static void main(String[] args) {
-        System.out.println("**************************** Program starting.... ****************************");
+        System.out.println("///////// Starting Program ////");
         //      Debug:
         //System.out.println("///////// Starting Object Test ////");
-        //      testObj();
-        //      testArrayList(testObj());
+        //testObj();
+        //testArrayList(testObj());
         //System.out.println("/////////// Ending.////////////////");
 
         ArrayList<Person> santaList = new ArrayList<Person>(); //create arraylist to store reference to objects
@@ -43,12 +42,16 @@ public class main {
         allocate(santaList);
 
         for (int x =0; x < santaList.size();x++){
-            System.out.print(x + ":" + santaList.get(x) + " " + santaList.get(x).getName() + " " + santaList.get(x).getType() + " " + santaList.get(x).getCat() + 
-                " " + santaList.get(x).printPresents() + " " + santaList.get(x).totalPresents() + "\n");
+            System.out.print(x + ":" + 
+                santaList.get(x).getName() + " " + 
+                santaList.get(x).getType() + " " + 
+                santaList.get(x).getCat() +  " " + 
+                santaList.get(x).printPresents() + " " + 
+                santaList.get(x).totalPresents() + "\n");
         }
-
-        System.out.println("**************************** Program finished ****************************");
+        System.out.println("///////// Ending Program ////");
     }
+
     /////////
     //Testing
     ////////
@@ -58,12 +61,17 @@ public class main {
         ss1.setName("swooper");
         ss1.setType("A");
         ss1.setCat("County");
+        ss1.setPresents(6);
         System.out.println("Details: " + ss1.getName() + " " + ss1.getType() + " " + ss1.getCat());
         ss1.givePresent("bob",0);
-        ss1.givePresent("yoyo",1);
+        ss1.givePresent("ytryu0yo",1);
+        ss1.givePresent("y4635o",2);
+        ss1.givePresent("eryo",3);
+        ss1.givePresent("dfsgo",4);
         ss1.givePresent("Magus",5);
         System.out.println("Presents: " + ss1.printPresents());
         System.out.println("Total: " + ss1.totalPresents());
+        System.out.println("Total: " + ss1.timesChosen());
         return ss1;
     }
 
@@ -77,7 +85,7 @@ public class main {
     //End test
     //////////
 
-    public static ArrayList csvReader(ArrayList santaList){
+    public static ArrayList csvReader(ArrayList<Person> santaList){
 
         try {
             BufferedReader CSV = new BufferedReader(new FileReader(
@@ -104,7 +112,7 @@ public class main {
                 ss.setName(arrInfo[0]);   
                 ss.setType(arrInfo[1]); 
                 ss.setCat(arrInfo[2]); 
-
+                ss.setPresents(6); //hardcoded for now.
                 santaList.add(ss); 
 
             }
@@ -120,35 +128,37 @@ public class main {
     }
 
     public static ArrayList allocate(ArrayList<Person> santaList){
-        for (int y = 1; y<=6; y++) {//go across through the presents
+        int santaPick = 0; //random person picked
+        int tally = 0; //if personal not of criteria, we cycle through to the next sequentially.
+
+        //Debug:
+        //System.out.println(santaList.get(0).numPresents()); 
+        //System.out.println(santaList.size());
+
+        for (int y = 0; y < santaList.get(0).numPresents(); y++) {//go across through the presents
+            //System.out.println("Present: " + y);
+
             for (int x = 0; x < santaList.size(); x++) { //go down through the list of people
+                //System.out.println("Person: " + y);
+                //pick a random number, reset tally.
+                santaPick = 0 + (int) (Math.random() * ((santaList.size() - 1)));
+                tally = 0;
+
                 if (santaList.get(x).getType() == "c" || 
                 santaList.get(x).getType() == "t" && y == 5 ||
                 santaList.get(x).getType() == "t" && y == 6 ){
-
+                    //if child or teenager on last presents, no present.
                     santaList.get(x).givePresent("none", y);                        
                 }
-                else{
-                    //pick a random number
-                    int santaPick = 0 + (int) (Math.random() * ((santaList.size() - 1)));
-                    int tally = 0;
-
-                    //Same category?
-
-                    if (santaList.get(santaPick).getCat().equals(santaList.get(x).getCat()) == true &&
-                    santaList.get(santaPick).totalPresents() <= 6){
-
-                        while (santaList.get(santaPick).getCat().equals(santaList.get(x).getCat()) == true &&
-                        santaList.get(santaPick).totalPresents() <= 6){
-                            santaPick++;
-                            tally++;
-
-                            if (santaPick >= santaList.size())
-                                santaPick = 0;
-
-                        }
-                    }   
-
+                else if (santaList.get(x).getType() == "a" && y == 5 ||
+                santaList.get(x).getType() == "a" && y == 6){
+                    //make adult sgive to children for certain presents
+                    //give kid present
+                    santaList.get(x).givePresent( presentFinder(santaList,santaPick,x,true), y);  
+                }
+                else {
+                    //give anyone present
+                    santaList.get(x).givePresent(presentFinder(santaList,santaPick,x,false), y);  
                 }           
 
             }
@@ -156,5 +166,39 @@ public class main {
 
         return santaList;
     }
-}   
 
+    public static String presentFinder(ArrayList<Person> people, int pick, int santa, boolean childOnly){
+        /*
+        check if this santa already has this person to give a present to. 
+        If not, return the persons name
+        This function mainly to not repeat code.
+
+        person = person picked to be be a 'secret santa
+        santa = person givign the present, storing the names of it's secret santas
+        people = array list of people, should the one picked be no good
+        lastPresent = if the last two presents, children only for adults.
+         */
+        int tally = 0;
+        
+        while (tally < 2){
+            if (people.get(pick).getCat().equals(people.get(santa).getCat()) == true ||  //if same category/house/family
+            people.get(pick).totalPresents() >= 6 || //if max presents
+            childOnly == true && people.get(pick).getType() != "c" ||//argument for child, but pick isnt child
+            people.get(santa).checkPresent(people.get(pick).getName()) == true ||// already picked for this person
+            people.get(pick).timesChosen() >= 6
+            ){
+                pick++; //move to the next person
+            } else {
+                return people.get(pick).getName();
+            }
+
+            //loop if at the end
+            if (pick >= people.size()){
+                tally++; // count the loops (to stop infinite loop)
+                pick = 0; // reset the loop
+            }
+        }
+
+        return "*None*";
+    }
+}   
