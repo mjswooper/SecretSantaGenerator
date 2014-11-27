@@ -47,7 +47,8 @@ public class main {
                 santaList.get(x).getType() + " " + 
                 santaList.get(x).getCat() +  " " + 
                 santaList.get(x).printPresents() + " " + 
-                santaList.get(x).totalPresents() + "\n");
+                santaList.get(x).totalPresents() + " " +
+                santaList.get(x).timesChosen() + "\n");
         }
         System.out.println("///////// Ending Program ////");
     }
@@ -143,15 +144,14 @@ public class main {
                 //pick a random number, reset tally.
                 santaPick = 0 + (int) (Math.random() * ((santaList.size() - 1)));
                 tally = 0;
-
-                if (santaList.get(x).getType() == "c" || 
-                santaList.get(x).getType() == "t" && y == 5 ||
-                santaList.get(x).getType() == "t" && y == 6 ){
+                        if (santaList.get(x).getType().equals("c") == true || 
+                santaList.get(x).getType().equals("t") && y == 4 ||
+                santaList.get(x).getType().equals("t") && y == 5 ){
                     //if child or teenager on last presents, no present.
-                    santaList.get(x).givePresent("none", y);                        
+                    santaList.get(x).givePresent("...", y);                        
                 }
-                else if (santaList.get(x).getType() == "a" && y == 5 ||
-                santaList.get(x).getType() == "a" && y == 6){
+                else if (santaList.get(x).getType().equals("a") && y == 4 ||
+                santaList.get(x).getType().equals("a") && y == 5){
                     //make adult sgive to children for certain presents
                     //give kid present
                     santaList.get(x).givePresent( presentFinder(santaList,santaPick,x,true), y);  
@@ -183,7 +183,7 @@ public class main {
         while (tally < 2){
             if (people.get(pick).getCat().equals(people.get(santa).getCat()) == true ||  //if same category/house/family
             people.get(pick).totalPresents() >= 6 || //if max presents
-            childOnly == true && people.get(pick).getType() != "c" ||//argument for child, but pick isnt child
+            childOnly == true && people.get(pick).getType().equals("c") == false ||//argument for child, but pick isnt child
             people.get(santa).checkPresent(people.get(pick).getName()) == true ||// already picked for this person
             people.get(pick).timesChosen() >= 6
             ){
@@ -199,6 +199,6 @@ public class main {
             }
         }
 
-        return "*None*";
+        return "N/A";
     }
 }   
