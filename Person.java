@@ -21,6 +21,11 @@ class Person {
         //returns the tally of the presents this person has.
         return totalp; 
     }
+    
+    public String present(int pres){
+    	
+    	return arrP[pres];
+    }
 
     public int timesChosen(){
         return chosen;
@@ -47,8 +52,10 @@ class Person {
 //            return false;
 //        } 
         
-            arrP[pNumber] = toGive;
-            totalp++;     
+           arrP[pNumber] = toGive;
+           if (toGive.equals("none") == false) {
+        		   totalp++;    
+          }
 
     }
 

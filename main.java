@@ -17,21 +17,28 @@
  */
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
+import java.io.FileWriter;
+import java.io.IOException;
+
+
 
 public class main {
 
     public static void main(String[] args) {
-        System.out.println("///////// Starting Program ////");
+        //System.out.println("///////// Starting Program ////");
         //      Debug:
         //System.out.println("///////// Starting Object Test ////");
         //testObj();
         //testArrayList(testObj());
+        
+        
         //System.out.println("/////////// Ending.////////////////");
 
         ArrayList<Person> santaList = new ArrayList<Person>(); //create arraylist to store reference to objects
@@ -40,17 +47,9 @@ public class main {
 
         allocate(santaList);
 
-        for (int x =0; x < santaList.size();x++){
-            System.out.print(//x + ":" + 
-                santaList.get(x).getName() + ": " + 
-                //santaList.get(x).getType() + " " + 
-                //santaList.get(x).getCat() +  " " + 
-                santaList.get(x).printPresents() + " " + 
-                //santaList.get(x).totalPresents() + " " +
-                //santaList.get(x).timesChosen() + 
-                "\n");
-        }
-        System.out.println("///////// Ending Program ////");
+        printCSV(santaList);  
+        
+        //System.out.println("///////// Ending Program ////");
     }
 
     /////////
@@ -85,7 +84,42 @@ public class main {
     //////////
     //End test
     //////////
+    public static void printCSV(ArrayList<Person> santaList) {
+    	
+    	
+    	//// readable
+    	System.out.println("\n === Readable Output ====");
+    	for (int x =0; x < santaList.size();x++){
+            System.out.print(//x + ":" + 
+                santaList.get(x).getName() + ": " + 
+                santaList.get(x).getType() + " " + 
+                santaList.get(x).getCat() +  " " + 
+                santaList.get(x).printPresents() + " " + 
+                santaList.get(x).totalPresents() + " " +
+                santaList.get(x).timesChosen() + 
+                "\n");
+        }
+        
+    	System.out.println("\n----CSV output----");
+    	System.out.println("Name,Present1,Present2,Present3,Present4,Present5,Present6");
+    	for (int x = 0; x < santaList.size();x++){
+            System.out.print(//x + ":" + 
+                santaList.get(x).getName() + "," + 
+                santaList.get(x).present(0) + "," + 
+                santaList.get(x).present(1) + "," + 
+                santaList.get(x).present(2) + "," + 
+                santaList.get(x).present(3) + "," + 
+                santaList.get(x).present(4) + "," + 
+                santaList.get(x).present(5) + //"," + 
+               //santaList.get(x).timesChosen() +           
+                "\n");
+        }
 
+    	
+    }
+    
+
+    
     public static ArrayList<Person> csvReader(ArrayList<Person> santaList){
 
         try {
@@ -204,7 +238,7 @@ public class main {
 
 	            }
         }
-        return "n/a";
+        return "none";
     }
 }
   
