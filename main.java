@@ -10,7 +10,6 @@
  *    - Each person gets 6 presents
  *    
  *    - Adult (a) give 4 adult presents and 2 child
- *    - Teenagers (t) give 4 adult presents, no child
  *    - Children only receive 
  *    
  *    - People within the same house (category) should not give to each other
@@ -42,13 +41,14 @@ public class main {
         allocate(santaList);
 
         for (int x =0; x < santaList.size();x++){
-            System.out.print(x + ":" + 
-                santaList.get(x).getName() + " " + 
-                santaList.get(x).getType() + " " + 
-                santaList.get(x).getCat() +  " " + 
+            System.out.print(//x + ":" + 
+                santaList.get(x).getName() + ": " + 
+                //santaList.get(x).getType() + " " + 
+                //santaList.get(x).getCat() +  " " + 
                 santaList.get(x).printPresents() + " " + 
-                santaList.get(x).totalPresents() + " " +
-                santaList.get(x).timesChosen() + "\n");
+                //santaList.get(x).totalPresents() + " " +
+                //santaList.get(x).timesChosen() + 
+                "\n");
         }
         System.out.println("///////// Ending Program ////");
     }
@@ -86,7 +86,7 @@ public class main {
     //End test
     //////////
 
-    public static ArrayList csvReader(ArrayList<Person> santaList){
+    public static ArrayList<Person> csvReader(ArrayList<Person> santaList){
 
         try {
             BufferedReader CSV = new BufferedReader(new FileReader(
@@ -128,9 +128,9 @@ public class main {
         return santaList;
     }
 
-    public static ArrayList allocate(ArrayList<Person> santaList){
+    public static ArrayList<Person> allocate(ArrayList<Person> santaList){
         int santaPick = 0; //random person picked
-        int tally = 0; //if personal not of criteria, we cycle through to the next sequentially.
+
 
         //Debug:
         //System.out.println(santaList.get(0).numPresents()); 
@@ -143,21 +143,22 @@ public class main {
                 //System.out.println("Person: " + y);
                 //pick a random number, reset tally.
                 santaPick = 0 + (int) (Math.random() * ((santaList.size() - 1)));
-                tally = 0;
-                        if (santaList.get(x).getType().equals("c") == true || 
-                santaList.get(x).getType().equals("t") && y == 4 ||
-                santaList.get(x).getType().equals("t") && y == 5 ){
-                    //if child or teenager on last presents, no present.
-                    santaList.get(x).givePresent("...", y);                        
+                
+                
+                if (santaList.get(x).getType().equals("c") == true){	//if child or teenager on last presents, no present.
+                       santaList.get(x).givePresent("...", y);                        
                 }
+                
                 else if (santaList.get(x).getType().equals("a") && y == 4 ||
                 santaList.get(x).getType().equals("a") && y == 5){
-                    //make adult sgive to children for certain presents
-                    //give kid present
-                    santaList.get(x).givePresent( presentFinder(santaList,santaPick,x,true), y);  
+                	
+                    //make adults give to children for 4th and 5th presents
+                	//System.out.println("Present was given from " + santaList.get(x).getName() + "to child: ");
+                	santaList.get(x).givePresent(presentFinder(santaList,santaPick,x,true), y);   //true = child only
                 }
                 else {
                     //give anyone present
+                	//System.out.println("Present was given from " + santaList.get(x).getName() + "to adult: ");
                     santaList.get(x).givePresent(presentFinder(santaList,santaPick,x,false), y);  
                 }           
 
@@ -181,24 +182,29 @@ public class main {
         int tally = 0;
         
         while (tally < 2){
-            if (people.get(pick).getCat().equals(people.get(santa).getCat()) == true ||  //if same category/house/family
-            people.get(pick).totalPresents() >= 6 || //if max presents
-            childOnly == true && people.get(pick).getType().equals("c") == false ||//argument for child, but pick isnt child
-            people.get(santa).checkPresent(people.get(pick).getName()) == true ||// already picked for this person
-            people.get(pick).timesChosen() >= 6
-            ){
-                pick++; //move to the next person
-            } else {
-                return people.get(pick).getName();
-            }
+	            if (people.get(pick).getCat().equals(people.get(santa).getCat()) == true || 	 
+	            people.get(pick).totalPresents() >= 6 || 										
+	            people.get(santa).checkPresent(people.get(pick).getName()) == true ||			
+	            people.get(pick).timesChosen() >= 6 ||
+	            childOnly == true && people.get(pick).getType().equals("a") ||
+	            childOnly == false && people.get(pick).getType().equals("c")
+	            ){
+	            	pick++;
+	            	
+		        } else {
+	            	people.get(pick).picked();
+	            	//System.out.println(people.get(pick).getName());
+	                return people.get(pick).getName();
+		        }
 
-            //loop if at the end
-            if (pick >= people.size()){
-                tally++; // count the loops (to stop infinite loop)
-                pick = 0; // reset the loop
-            }
+	            
+	            if (pick >= people.size()){
+	                tally++; // count the loops (to stop infinite loop)
+	                pick = 0; // reset the loop
+
+	            }
         }
-
-        return "N/A";
+        return "n/a";
     }
-}   
+}
+  

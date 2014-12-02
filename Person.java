@@ -8,7 +8,7 @@ import java.util.ArrayList;
 class Person {
 
     String ssName = "";
-    String ssType = ""; //adult, teenager or child (a,t,c)
+    String ssType = ""; //adult or child (a or c)
     String ssCat = ""; //which household or group they are in
     String arrP[]; //names of those to give presents to go here.
     int totalp = 0; //total of presents allocated
@@ -26,6 +26,10 @@ class Person {
         return chosen;
     }
     
+    public void picked(){
+    	chosen++;
+    }
+    
     public void setPresents(int pNum){
         arrP = new String[pNum];
     }
@@ -34,33 +38,32 @@ class Person {
         return arrP.length;
     }
 
-    public boolean givePresent (String toGive, int pNumber) {
+    public void givePresent (String toGive, int pNumber) {
         //sets present and returns true on success.
         //toGive = name of secret santa, pNumber is the number of the present (p1).
 
-        if (arrP[pNumber] != null){
-            System.out.println("arrP[pNumber] != null");
-            return false;
-        }
-        else{
+//        if (arrP[pNumber] != null){
+//            System.out.println("arrP[pNumber] != null");
+//            return false;
+//        } 
+        
             arrP[pNumber] = toGive;
-            chosen++;
-            return true;
-        }
+            totalp++;     
+
     }
 
-    public boolean checkPresent(String propPerson){
+    public String printPresents(){
+	    //no inbuilt means to turn into a string like an array.
+	    //System.out.println("p0:" + arrP[0] + " p0:" + arrP[1] + " p0:" + arrP[2] + " p0:" + arrP[3] + " p0:" + arrP[4] + " p0:" + arrP[5]); 
+	    return Arrays.toString(arrP);
+	}
+
+	public boolean checkPresent(String propPerson){
         for (int a = 0; a < arrP.length; a++) {
             if (arrP[a] != null)
                 if (arrP[a].equals(propPerson)) return true;
         }
         return false;
-    }
-
-    public String printPresents(){
-        //no inbuilt means to turn into a string like an array.
-        //System.out.println("p0:" + arrP[0] + " p0:" + arrP[1] + " p0:" + arrP[2] + " p0:" + arrP[3] + " p0:" + arrP[4] + " p0:" + arrP[5]); 
-        return Arrays.toString(arrP);
     }
 
     public void setName(String gName){
