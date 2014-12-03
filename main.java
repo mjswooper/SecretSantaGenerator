@@ -28,7 +28,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 
-
 public class main {
 
     public static void main(String[] args) {
@@ -37,18 +36,12 @@ public class main {
         //System.out.println("///////// Starting Object Test ////");
         //testObj();
         //testArrayList(testObj());
-        
-        
+
         //System.out.println("/////////// Ending.////////////////");
-
         ArrayList<Person> santaList = new ArrayList<Person>(); //create arraylist to store reference to objects
-
         csvReader(santaList);
-
         allocate(santaList);
-
         printCSV(santaList);  
-        
         //System.out.println("///////// Ending Program ////");
     }
 
@@ -85,11 +78,10 @@ public class main {
     //End test
     //////////
     public static void printCSV(ArrayList<Person> santaList) {
-    	
-    	
-    	//// readable
-    	System.out.println("\n === Readable Output ====");
-    	for (int x =0; x < santaList.size();x++){
+
+        //// readable
+        System.out.println("\n === Readable Output ====");
+        for (int x =0; x < santaList.size();x++){
             System.out.print(//x + ":" + 
                 santaList.get(x).getName() + ": " + 
                 santaList.get(x).getType() + " " + 
@@ -99,10 +91,10 @@ public class main {
                 santaList.get(x).timesChosen() + 
                 "\n");
         }
-        
-    	System.out.println("\n----CSV output----");
-    	System.out.println("Name,Present1,Present2,Present3,Present4,Present5,Present6");
-    	for (int x = 0; x < santaList.size();x++){
+
+        System.out.println("\n----CSV output----");
+        System.out.println("Name,Present1,Present2,Present3,Present4,Present5,Present6");
+        for (int x = 0; x < santaList.size();x++){
             System.out.print(//x + ":" + 
                 santaList.get(x).getName() + "," + 
                 santaList.get(x).present(0) + "," + 
@@ -111,17 +103,13 @@ public class main {
                 santaList.get(x).present(3) + "," + 
                 santaList.get(x).present(4) + "," + 
                 santaList.get(x).present(5) + //"," + 
-               //santaList.get(x).timesChosen() +           
+                    //santaList.get(x).timesChosen() +           
                 "\n");
         }
 
-    	
     }
-    
 
-    
     public static ArrayList<Person> csvReader(ArrayList<Person> santaList){
-
         try {
             BufferedReader CSV = new BufferedReader(new FileReader(
                         "./SantaNames.csv"));
@@ -165,7 +153,6 @@ public class main {
     public static ArrayList<Person> allocate(ArrayList<Person> santaList){
         int santaPick = 0; //random person picked
 
-
         //Debug:
         //System.out.println(santaList.get(0).numPresents()); 
         //System.out.println(santaList.size());
@@ -177,22 +164,21 @@ public class main {
                 //System.out.println("Person: " + y);
                 //pick a random number, reset tally.
                 santaPick = 0 + (int) (Math.random() * ((santaList.size() - 1)));
-                
-                
-                if (santaList.get(x).getType().equals("c") == true){	//if child or teenager on last presents, no present.
-                       santaList.get(x).givePresent("...", y);                        
+
+                if (santaList.get(x).getType().equals("c") == true){    //if child or teenager on last presents, no present.
+                    santaList.get(x).givePresent("...", y);                        
                 }
-                
+
                 else if (santaList.get(x).getType().equals("a") && y == 4 ||
                 santaList.get(x).getType().equals("a") && y == 5){
-                	
+
                     //make adults give to children for 4th and 5th presents
-                	//System.out.println("Present was given from " + santaList.get(x).getName() + "to child: ");
-                	santaList.get(x).givePresent(presentFinder(santaList,santaPick,x,true), y);   //true = child only
+                    //System.out.println("Present was given from " + santaList.get(x).getName() + "to child: ");
+                    santaList.get(x).givePresent(presentFinder(santaList,santaPick,x,true), y);   //true = child only
                 }
                 else {
                     //give anyone present
-                	//System.out.println("Present was given from " + santaList.get(x).getName() + "to adult: ");
+                    //System.out.println("Present was given from " + santaList.get(x).getName() + "to adult: ");
                     santaList.get(x).givePresent(presentFinder(santaList,santaPick,x,false), y);  
                 }           
 
@@ -214,31 +200,30 @@ public class main {
         lastPresent = if the last two presents, children only for adults.
          */
         int tally = 0;
-        
+
         while (tally < 2){
-	            if (people.get(pick).getCat().equals(people.get(santa).getCat()) == true || 	 
-	            people.get(pick).totalPresents() >= 6 || 										
-	            people.get(santa).checkPresent(people.get(pick).getName()) == true ||			
-	            people.get(pick).timesChosen() >= 6 ||
-	            childOnly == true && people.get(pick).getType().equals("a") ||
-	            childOnly == false && people.get(pick).getType().equals("c")
-	            ){
-	            	pick++;
-	            	
-		        } else {
-	            	people.get(pick).picked();
-	            	//System.out.println(people.get(pick).getName());
-	                return people.get(pick).getName();
-		        }
+            if (people.get(pick).getCat().equals(people.get(santa).getCat()) == true ||      
+            people.get(pick).totalPresents() >= 6 ||                                        
+            people.get(santa).checkPresent(people.get(pick).getName()) == true ||           
+            people.get(pick).timesChosen() >= 6 ||
+            people.get(pick).getType().equals("a") == true && people.get(pick).timesChosen() >= 4 ||
+            childOnly == true && people.get(pick).getType().equals("a") ||
+            childOnly == false && people.get(pick).getType().equals("c")
+            ){
+                pick++;
 
-	            
-	            if (pick >= people.size()){
-	                tally++; // count the loops (to stop infinite loop)
-	                pick = 0; // reset the loop
+            } else {
+                people.get(pick).picked();
+                //System.out.println(people.get(pick).getName());
+                return people.get(pick).getName();
+            }
 
-	            }
+            if (pick >= people.size()){
+                tally++; // count the loops (to stop infinite loop)
+                pick = 0; // reset the loop
+
+            }
         }
         return "none";
     }
 }
-  
