@@ -46,16 +46,22 @@ Only the CSV at this stage. Next step of this program is to prompt the user for 
 
 OUTPUT
 
+Just on the screen currently, ready to copy paste to excel and tweak from there. 
 
 TO DO
- Optimise - runs quickly but code was written as fast as possible. 
+
+Optimise - runs quickly but code was written as fast as possible. 
+Better handling or user experience for when the number of people supplied doesnt work well with the number of presents rules
+Means for flexibility, such as changing number of presents, etc.
 
 
 BUGS
-    Output needs more testing and randomisation when referencing sections that are already taken. 
+
+Output needs more testing and randomisation when referencing sections that are already taken. 
 
 
 AUTHOR
-    Jesse Wheeler <admin@planned-escape.com>
+
+Jesse Wheeler <admin@planned-escape.com>
 
 
