@@ -47,12 +47,12 @@ Only the CSV at this stage. Next step of this program is to prompt the user for 
 OUTPUT
 
 
-
-RUNNING
+TO DO
+ Optimise - runs quickly but code was written as fast as possible. 
 
 
 BUGS
-    Quite probably.
+    Output needs more testing and randomisation when referencing sections that are already taken. 
 
 
 AUTHOR
